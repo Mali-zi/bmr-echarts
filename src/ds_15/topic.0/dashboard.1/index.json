@@ -1,0 +1,15 @@
+{
+  "topic_id": 0,
+  "icon_id": 0,
+  "title": "bmr-echarts",
+  "srt": 2147483647,
+  "config": {
+    "icon": "map2",
+    "viewport": {
+      "h": 8,
+      "w": 12
+    }
+  },
+  "created": "2024-05-14T09:53:10.957604+03:00",
+  "is_hidden": 0
+}
