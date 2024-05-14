@@ -2,7 +2,7 @@
   "parent_id": null,
   "dashboard_id": 1,
   "view_class": "internal",
-  "title": "Диаграмма",
+  "title": "Фон по условию",
   "description": null,
   "frame": null,
   "layout": null,
@@ -10,31 +10,29 @@
   "idx": 0,
   "srt": 2147483647,
   "config": {
-    "url": "res:DashComponent.js",
+    "url": "res:BgComponent.js",
     "frame": {
       "h": 4,
       "w": 12,
       "x": 0,
-      "y": 0
+      "y": 4
     },
     "dataSource": {
       "koob": "luxmsbi.electricity_payments_plan",
       "style": {},
-      "xAxis": "dt;org_level2",
+      "xAxis": "org_level2",
       "yAxis": "measures",
       "filters": {
         "dt": true,
         "org_level2": true
       },
       "measures": [
-        "sum(value):sum_value",
-        "avg(value):avg_value"
+        "sum(value):sum_value"
       ],
       "dimensions": [
-        "dt",
         "org_level2"
       ]
     }
   },
-  "created": "2024-05-14T09:54:11.697098+03:00"
+  "created": "2024-05-14T14:33:38.761302+03:00"
 }
