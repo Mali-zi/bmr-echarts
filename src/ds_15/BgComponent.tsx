@@ -1,6 +1,7 @@
 import React from "react";
 import * as echarts from "echarts";
 import ReactEChart from "echarts-for-react";
+import "./BgComponent.css";
 
 const goolValue = 100;
 interface IItem {
@@ -30,100 +31,124 @@ export default function BgComponent() {
   const sortedChartData = chartData.sort((a, b) => b.value - a.value);
   const chartValues = sortedChartData.map((d) => d.value);
   const chartNames = sortedChartData.map((d) => d.name);
-  const maxValue = Math.max(...chartValues)*1.5;
+  const maxValue = Math.max(...chartValues) * 1.3;
+  const maxValueArr: number[] = new Array(chartValues.length).fill(maxValue);
 
-  let group1: IItem[] = [];
-  let group2: IItem[] = [];
-  let group3: IItem[] = [];
-  let group4: IItem[] = [];
-  let group5: IItem[] = [];
-
-  chartData.map((d) => {
-    if (d.value < goolValue * 0.95) group1 = [...group1, d];
-    if (d.value >= goolValue * 0.95 && d.value < goolValue * 0.99)
-      group2 = [...group2, d];
-    if (d.value >= goolValue * 0.99 && d.value <= goolValue * 1.01)
-      group3 = [...group3, d];
-    if (d.value > goolValue * 1.01 && d.value <= goolValue * 1.05)
-      group4 = [...group4, d];
-    if (d.value > goolValue * 1.05) group5 = [...group5, d];
-  });
-
-  const groups = [
-    {
-      name: "group1",
-      arr: group1.sort((a, b) => b.value - a.value),
-      background: "rgba(223, 154, 154, 0.3)",
+  const option = {
+    textStyle: {
+      color: "#6F6F6F",
     },
-    {
-      name: "group2",
-      arr: group2.sort((a, b) => b.value - a.value),
-      background: "rgba(255, 241, 169, 0.3)",
-    },
-    {
-      name: "group3",
-      arr: group3.sort((a, b) => b.value - a.value),
-      background: "rgba(182, 232, 203, 0.3)",
-    },
-    {
-      name: "group4",
-      arr: group4.sort((a, b) => b.value - a.value),
-      background: "rgba(255, 241, 169, 0.3)",
-    },
-    {
-      name: "group5",
-      arr: group5.sort((a, b) => b.value - a.value),
-      background: "rgba(223, 154, 154, 0.3)",
-    },
-  ];
-
-  const conditions = [
-    "Более +5%",
-    "Менее +5% и более 1%",
-    "Менее +1% и более -1%",
-    "Менее -1% и более -5%",
-    "Менее -5%",
-  ];
-
-  const markAreaData = groups
-    .map((group, index) => {
-      if (group.arr.length > 0) {
-        return [
-          {
-            name: conditions[index],
-            xAxis: group.arr[0].name,
-            yAxis: 0,
-            itemStyle: {
-              color: group.background,
-            },
-          },
-          {
-            xAxis: group.arr[group.arr.length - 1].name,
-            yAxis: maxValue,
-            itemStyle: {
-              color: group.background,
-            },
-          },
-        ];
-      }
-    })
-    .filter((item) => item !== undefined);
-
-  const chartOption = {
+    tooltip: {},
     xAxis: {
-      type: "category",
-      data: [...chartNames],
+      data: chartNames,
+      axisTick: { show: false },
+      axisLine: {
+        show: true,
+        lineStyle: {
+          color: "#878787",
+        },
+      },
+      axisLabel: {
+        show: true,
+        rotate: 45,
+      },
     },
     yAxis: {
-      type: "value",
+      name: "%",
+      nameLocation: "center",
+      nameTextStyle: {
+        fontSize: "14",
+        lineHeight: 56,
+      },
+      max: maxValue,
+      axisLine: {
+        show: true,
+        lineStyle: {
+          color: "#878787",
+        },
+      },
+      axisTick: {
+        show: true,
+        lineStyle: {
+          color: "#878787",
+        },
+      },
+      splitLine: { show: false },
     },
+    animationDurationUpdate: 1200,
     series: [
       {
         type: "bar",
-        data: [...chartValues],
+        label: {
+          show: true,
+          position: "insideTop",
+          color: "#6F6F6F",
+          distance: 34,
+          fontSize: 14,
+          formatter: (d) => {
+            const foundItem = chartData.find((el, index) => d.name === el.name);
+            return `${foundItem.value}%`;
+          },
+        },
+        itemStyle: {
+          color: (d) => {
+            const foundItem = chartData.find((el, index) => d.name === el.name);
+            if (foundItem && foundItem.value < goolValue * 0.95)
+              return "rgba(223, 154, 154, 0.3)";
+            if (
+              foundItem &&
+              foundItem.value >= goolValue * 0.95 &&
+              foundItem.value < goolValue * 0.99
+            )
+              return "rgba(255, 241, 169, 0.3)";
+            if (
+              foundItem &&
+              foundItem.value >= goolValue * 0.99 &&
+              foundItem.value <= goolValue * 1.01
+            )
+              return "rgba(182, 232, 203, 0.3)";
+            if (
+              foundItem &&
+              foundItem.value > goolValue * 1.01 &&
+              foundItem.value <= goolValue * 1.05
+            )
+              return "rgba(255, 241, 169, 0.3)";
+            if (foundItem && foundItem.value > goolValue * 1.05)
+              return "rgba(223, 154, 154, 0.3)";
+          },
+        },
+        silent: true,
+        barWidth: "100%",
+        barGap: "-95%",
+        data: maxValueArr,
+      },
+      {
+        type: "bar",
+        label: {
+          show: true,
+          position: "top",
+          formatter: "{c}%",
+          color: "#6F6F6F",
+          distance: 8,
+          fontSize: 14,
+        },
+        markLine: {
+          symbol: ["none", "none"],
+          data: [
+            {
+              type: "average",
+              name: "Среднее1",
+              lineStyle: {
+                  type: "solid",
+                  width: 2,
+                  color: '#5ab07f',
+              },
+            },
+          ],
+        },
         itemStyle: {
           borderColor: "rgba(135, 135, 135, 1)",
-          borderWidth: 2,
+          borderWidth: 1,
           barBorderRadius: [10, 10, 0, 0],
           color: (d) => {
             if (d.value < goolValue * 0.95) return "rgba(223, 154, 154, 1)";
@@ -136,19 +161,35 @@ export default function BgComponent() {
             if (d.value > goolValue * 1.05) return "rgba(223, 154, 154, 1)";
           },
         },
-        markArea: {
-          data: markAreaData,
-        },
+        barWidth: "90%",
+        z: 2,
+        data: chartValues,
       },
     ],
   };
 
   return (
-    <ReactEChart
-      option={chartOption}
-      style={{ height: 400 }}
-      opts={{ renderer: "svg" }} // use svg to render the chart
-      // opts={{ locale: 'FR' }}
-    />
+    <div className="container">
+      <ReactEChart
+        option={option}
+        style={{ height: "100%" }}
+        opts={{ renderer: "svg" }} // use svg to render the chart
+        // opts={{ locale: 'FR' }}
+      />
+      <div className="legend">
+        <div className="legend-item">
+          <div className="red-circle"></div>
+          <div className="legend-text">Отклонение от плана более 5%</div>
+        </div>
+        <div className="legend-item">
+          <div className="yellow-circle"></div>
+          <div className="legend-text">Отклонение от плана от 1% до 5%</div>
+        </div>
+        <div className="legend-item">
+          <div className="green-circle"></div>
+          <div className="legend-text">Менее 1%</div>
+        </div>
+      </div>
+    </div>
   );
 }

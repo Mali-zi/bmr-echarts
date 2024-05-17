@@ -118,7 +118,7 @@ export default function DashComponent() {
   return (
     <ReactEChart
       option={options}
-      style={{ height: 400 }}
+      style={{ height: '100%' }}
       opts={{ renderer: "svg" }} // use svg to render the chart
       // opts={{ locale: 'FR' }}
     />

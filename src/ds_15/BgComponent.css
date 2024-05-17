@@ -1,0 +1,48 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  color: #6f6f6f;
+}
+
+.chart-title {
+  color: #6f6f6f;
+}
+
+.legend {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+  margin: 40px 0 20px 0;
+}
+
+.legend-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+.red-circle, .yellow-circle, .green-circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #df9a9a;
+}
+
+.yellow-circle {
+  background-color: #FFF1A9;
+}
+
+.green-circle {
+  background-color: #B6E8CB;
+}
+
+.legend-text {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+}
