@@ -189,6 +189,10 @@ export default function BgComponent() {
           <div className="green-circle"></div>
           <div className="legend-text">Менее 1%</div>
         </div>
+        <div className="legend-item">
+          <div className="green-line"></div>
+          <div className="legend-text">В среднем по городу</div>
+        </div>
       </div>
     </div>
   );
